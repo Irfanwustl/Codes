@@ -21,3 +21,9 @@ p
 
 p+geom_text(data=filter(results, padj<0.05), aes(label=Gene))
 p+geom_text_repel(data=filter(results, padj<0.05), aes(label=Gene))
+
+
+p = ggplot(results, aes(logFC, -log10(PValue))) +
++     geom_point(aes(col=sig)) +
++     scale_color_manual(values=c("red", "green"))
+> p+geom_text_repel(data=filter(top_peaks, top_peaks$PValue<0.05), aes(label=X))
