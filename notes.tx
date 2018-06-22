@@ -1,0 +1,7 @@
+720  Rscript --vanilla normalizations.R ../../HTG_0510.tsv ../Sample_cluster_Response.txt ../Comparison_Response/ .
+730  Rscript normalizations.R ../Res_Top200.txt ../Sample_cluster_Response.txt ../Comparison_Response/Top80/ .
+
+764  Rscript --vanilla normalizations.R ../../data/NSCLC_Quant_BGI.tsv ../sample_list.txt ../Response/ .
+
+778  Rscript --vanilla normalizations.R ../Res_Sig.txt ../sample_list.txt ../Response/ .
+783  Rscript --vanilla normalizations.R ../Res_Top500.txt ../sample_list.txt ../Response/ .
