@@ -26,21 +26,6 @@ p= ggplot(results, aes(logFC, -log10(PValue))) +
 +     geom_point(aes(col=sig)) +
 +     scale_color_manual(values=c("red", "black"))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 p = ggplot(results, aes(log2FoldChange, -log10(pvalue))) +
   geom_point(aes(col=group)) +
   scale_color_manual(values=c("col1", "col2","col3","col4"))
