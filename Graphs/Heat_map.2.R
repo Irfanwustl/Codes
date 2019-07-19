@@ -1,28 +1,15 @@
 library(gplots)
 library("RColorBrewer")
-GSE4835020<-read.csv("GSE48350.20.csv",h=T)
-row.names(GSE4835020)<-GSE4835020$X
-GSE4835020_Matrix<-data.matrix(GSE4835020)
-GSE4835020_Matrix<-GSE4835020_Matrix[,-1]
-GSE4835020_Matrix<-GSE4835020_Matrix[,-1]
-A<-GSE4835020_Matrix[1,]
-A[A == 1] = "red"
-A[A == 0] = "blue"
-I = order(GSE4835020_Matrix[2,])
-GSE4835020_Matrix = GSE4835020_Matrix[, I]
-A=A[I]
-I = order(A)
-GSE4835020_Matrix = GSE4835020_Matrix[, I]
-A=A[I]
-GSE4835020_Matrix<-GSE4835020_Matrix[-1,]
-GSE4835020_Matrix<-GSE4835020_Matrix[-2,]
-heatmap.2(GSE4835020_Matrix,margins=c(5,10),trace="none",scale="row",main ="GSE48350.20\nHuman[Brain Region] from 20 cases & 43 controls", Rowv=NA,Colv=NA, dendrogram="both",labCol = FALSE,ColSideColors=A,col=bluered(4096))
 
+#read file
+d<-read.table("normalized_by_TMM.tsv",h=T,row.names=1)
 
-library(gplots)
+#read gene list
+gene<-read.table("top200.txt",h=F,row.names=1)
 
-# create some data
-d <- matrix(rnorm(120),12,10)
+#keep interested rows
+list_gene<- which(row.names(d) %in% row.names(gene))
+d<-as.matrix(d[list_gene,])
 
 # cluster it
 hr <- hclust(as.dist(1-cor(t(d), method="pearson")), method="complete")
@@ -37,26 +24,7 @@ clusterCols <- rainbow(length(unique(mycl)))
 myClusterSideBar <- clusterCols[mycl]
 
 # choose a color palette for the heat map
-myheatcol <- rev(redgreen(75))
+mypalette <- rev(redgreen(75))
 
 # draw the heat map
-heatmap.2(d, main="Hierarchical Cluster", Rowv=as.dendrogram(hr), Colv=NA, dendrogram="row", scale="row", col=myheatcol, density.info="none", trace="none", RowSideColors= myClusterSideBar)
-heatmap.2(d8, main="DE Analysis\nMEM1 vs ICOS", Rowv=as.dendrogram(hr), Colv=NA, dendrogram="none", scale="row", col=mypalette, density.info="none", trace="none", lhei=c(1,15), lwid=c(0.5,2.5), keysize=0.75, key.par = list(cex=0.5),margins=c(8,8))
-heatmap.2(dv, main="DE Analysis\nCM vs ICOS vs MEM1 vs NAIVE", Rowv=as.dendrogram(hr), Colv=NA ,dendrogram="row", scale="row", col=mypalette, density.info="none", trace="none", lhei=c(1,2.5), lwid=c(0.5,2.5), keysize=0.75, key.par = list(cex=0.5),margins=c(8,8),RowSideColors= myClusterSideBar,ColSideColors = a)
-# cutree returns a vector of cluster membership
-# in the order of the original data rows
-# examine it
-mycl
-
-# examine the cluster membership by it's order
-# in the heatmap
-mycl[hr$order]
-
-# grab a cluster
-cluster1 <- d[mycl == 1,]
-
-# or simply add the cluster ID to your data
-foo <- cbind(d, clusterID=mycl)
-
-# examine the data with cluster ids attached, and ordered like the heat map
-foo[hr$order,]
+heatmap.2(dv, main="DE Analysis\nCondition1 vs Condition2", Rowv=as.dendrogram(hr), Colv=NA ,dendrogram="row", scale="row", col=mypalette, density.info="none", trace="none", lhei=c(1,2.5), lwid=c(0.5,2.5), keysize=0.75, key.par = list(cex=0.5),margins=c(8,8),RowSideColors= myClusterSideBar)
